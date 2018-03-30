@@ -6,7 +6,7 @@ compile_arm:
   stage: build
   image: golang:alpine
   script:
-    - go build CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o hello main.go
+    - CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o hello main.go
   artifacts:
     paths:
       - hello
@@ -15,7 +15,7 @@ compile_amd:
   stage: build
   image: golang:alpine
   script:
-    - go build CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o hello main.go
+    - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o hello main.go
   artifacts:
     paths:
       - hello
