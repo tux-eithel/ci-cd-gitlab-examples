@@ -3,14 +3,24 @@ stages:
   - build
   - copy
 
+
+variables:
+  # Please edit to your GitLab project
+  REPO_NAME: gitlab.uomorando.it/cpavan/PNLUG-CI-CD
+
+
+before_script:
+  - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
+  - ln -svf $CI_PROJECT_DIR $GOPATH/src/$REPO_NAME
+  - cd $GOPATH/src/$REPO_NAME
+
+
 test_with_cover:
   stage: test
   image: golang:alpine
   script:
     - go test -coverprofile=cover.out
-    - cat cover.out
-    - ls -l
-    #- go tool cover -html=cover.out -o cover.html
+    - go tool cover -html=cover.out -o cover.html
   artifacts:
     paths:
       - cover.html
@@ -19,7 +29,7 @@ compile_arm:
   stage: build
   image: golang:alpine
   script:
-    - CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o hello main.go
+    - CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o $CI_PROJECT_DIR/hello main.go
   artifacts:
     paths:
       - hello
@@ -28,7 +38,7 @@ compile_amd:
   stage: build
   image: golang:alpine
   script:
-    - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o hello main.go
+    - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o $CI_PROJECT_DIR/hello main.go
   artifacts:
     paths:
       - hello
