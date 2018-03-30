@@ -49,7 +49,7 @@ func Test_hello(t *testing.T) {
 			"with name",
 			"/?name=pluto",
 			args{httptest.NewRecorder()},
-			"Hi pluto\nWelcome to our website",
+			"Hi pluto!\nWelcome to our website",
 		},
 	}
 	for _, tt := range tests {
