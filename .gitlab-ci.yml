@@ -7,8 +7,10 @@ test_with_cover:
   stage: test
   image: golang:alpine
   script:
-    - go test -coverprofile cover.out
-    - go tool cover -html=cover.out -o cover.html
+    - go test -coverprofile=cover.out
+    - cat cover.out
+    - ls -l
+    #- go tool cover -html=cover.out -o cover.html
   artifacts:
     paths:
       - cover.html
