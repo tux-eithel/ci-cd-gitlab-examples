@@ -1,0 +1,41 @@
+stage:
+  - build
+  - copy
+
+compile_arm:
+  stage: build
+  image: golang:alpine
+  script:
+    - go build CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o hello main.go
+  artifacts:
+    paths:
+      - hello
+    
+compile_amd:
+  stage: build
+  image: golang:alpine
+  script:
+    - go build CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o hello main.go
+  artifacts:
+    paths:
+      - hello
+
+rsync:
+  stage: copy
+  image: debian:9.3
+  dependencies:
+    - compile_amd
+  environment:
+    name: prod
+    url: http://localhost/
+  only:
+    - master
+  before_script:
+    - 'apt-get update -y && apt-get install openssh-client make rsync -y'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\tRequestTTY Yes\n\n" > ~/.ssh/config
+  script:
+    - printf "make rsync"
