@@ -43,7 +43,27 @@ compile_amd:
     paths:
       - hello
 
-rsync:
+rsync_dev:
+  stage: copy
+  image: debian:9.3
+  dependencies:
+    - compile_amd
+  environment:
+    name: dev
+    url: http://localhost/
+  only:
+    - develop
+  before_script:
+    - apt-get update -y && apt-get install openssh-client make rsync -y
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\tRequestTTY Yes\n\n" > ~/.ssh/config
+  script:
+    - printf "make rsync"
+
+rsync_prod:
   stage: copy
   image: debian:9.3
   dependencies:
@@ -53,6 +73,7 @@ rsync:
     url: http://localhost/
   only:
     - master
+  when: manual
   before_script:
     - apt-get update -y && apt-get install openssh-client make rsync -y
     - eval $(ssh-agent -s)
