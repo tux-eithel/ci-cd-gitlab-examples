@@ -6,7 +6,7 @@ stages:
 
 variables:
   # Please edit to your GitLab project
-  REPO_NAME: gitlab.uomorando.it/cpavan/PNLUG-CI-CD
+  REPO_NAME: gitlab-test.pnlug.it/Eithel/pnlug-workshop
 
 
 before_script:
