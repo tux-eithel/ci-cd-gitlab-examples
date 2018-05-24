@@ -50,7 +50,7 @@ rsync_dev:
     - compile_amd
   environment:
     name: dev
-    url: http://localhost/
+    url: http://206.189.51.137:8080/
   only:
     - develop
   before_script:
@@ -61,7 +61,7 @@ rsync_dev:
     - chmod 700 ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\tRequestTTY Yes\n\n" > ~/.ssh/config
   script:
-    - printf "make rsync"
+    - rsync hello pnlugcicd@206.189.51.137:~/STAGE
 
 rsync_prod:
   stage: copy
@@ -70,7 +70,7 @@ rsync_prod:
     - compile_amd
   environment:
     name: prod
-    url: http://localhost/
+    url: http://206.189.51.137/
   only:
     - master
   when: manual
@@ -82,4 +82,4 @@ rsync_prod:
     - chmod 700 ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\tRequestTTY Yes\n\n" > ~/.ssh/config
   script:
-    - printf "make rsync"
+    - rsync hello pnlugcicd@206.189.51.137:~/STAGE
