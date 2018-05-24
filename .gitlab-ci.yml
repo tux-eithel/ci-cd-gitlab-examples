@@ -61,7 +61,7 @@ rsync_dev:
     - chmod 700 ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\tRequestTTY Yes\n\n" > ~/.ssh/config
   script:
-    - rsync hello pnlugcicd@206.189.51.137:~/STAGE
+    - rsync hello $REMOTE_SERVER:~/STAGE
 
 rsync_prod:
   stage: copy
@@ -82,4 +82,4 @@ rsync_prod:
     - chmod 700 ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\tRequestTTY Yes\n\n" > ~/.ssh/config
   script:
-    - rsync hello pnlugcicd@206.189.51.137:~/STAGE
+    - rsync hello $REMOTE_SERVER:~/PROD
