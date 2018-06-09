@@ -29,6 +29,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, sayHi(r.URL.Query().Get("name")))
 }
 
+// sayHi is the entry-point for our web application
 func sayHi(s string) string {
 	hello := ""
 	if s != "" {
